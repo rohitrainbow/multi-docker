@@ -1,0 +1,22 @@
+anguage: generic 
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t rohitrainbow/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true rohitrainbow/react-test npm test
+
+after_success:
+  - docker build -t rohitrainbow/multi-client ./client
+  - docker build -t rohitrainbow/multi-nginx ./nginx
+  - docker build -t rohitrainbow/multi-server ./server
+  - docker build -t rohitrainbow/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push rohitrainbow/multi-client
+  - docker push rohitrainbow/multi-nginx
+  - docker push rohitrainbow/multi-server
+  - docker push rohitrainbow/multi-worker
+
