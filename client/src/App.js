@@ -9,7 +9,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <h1>Fib Calculator</h1>
+        <h1>Fib Calc</h1>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <a
